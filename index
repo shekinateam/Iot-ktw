@@ -364,9 +364,76 @@
     .main { margin-left: 0; }
     .content { padding: 20px; }
   }
+
+  /* 로그인 */
+  .login-overlay {
+    position: fixed; inset: 0;
+    background: var(--green-dark);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+  }
+  .login-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 36px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .login-box .lb { font-size: 22px; font-weight: 900; color: var(--green-dark); margin-bottom: 4px; }
+  .login-box .ls { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+  .login-box input {
+    width: 100%; padding: 11px 14px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: inherit;
+    margin-bottom: 12px; outline: none;
+    transition: border-color 0.15s;
+  }
+  .login-box input:focus { border-color: var(--green); }
+  .login-box button {
+    width: 100%; padding: 12px;
+    background: var(--green); color: #fff;
+    border: none; border-radius: 8px;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    margin-top: 4px; transition: background 0.15s;
+  }
+  .login-box button:hover { background: var(--green-dark); }
+  .login-error { color: #E24B4A; font-size: 13px; margin-top: 10px; display: none; }
+
 </style>
 </head>
 <body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="lb">LifeSmart</div>
+    <div class="ls">AI Builder 자동화 메뉴얼</div>
+    <input type="text" id="loginId" placeholder="ID" autocomplete="off">
+    <input type="password" id="loginPw" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">로그인</button>
+    <div class="login-error" id="loginError">ID 또는 비밀번호가 틀렸습니다.</div>
+  </div>
+</div>
+
+<script>
+function doLogin() {
+  var id = document.getElementById('loginId').value;
+  var pw = document.getElementById('loginPw').value;
+  if (id === 'sky7502v' && pw === 'dhks2514!') {
+    document.getElementById('loginOverlay').style.display = 'none';
+    sessionStorage.setItem('auth', '1');
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+window.addEventListener('DOMContentLoaded', function() {
+  if (sessionStorage.getItem('auth') === '1') {
+    document.getElementById('loginOverlay').style.display = 'none';
+  }
+});
+</script>
+
 
 <!-- 사이드바 -->
 <nav class="sidebar">
