@@ -1,1 +1,1220 @@
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LifeSmart AI Builder 자동화 메뉴얼</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
 
+  :root {
+    --green: #1D9E75;
+    --green-dark: #085041;
+    --green-light: #E1F5EE;
+    --green-mid: #9FE1CB;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --amber: #854F0B;
+    --amber-light: #FAEEDA;
+    --coral: #993C1D;
+    --gray: #5F5E5A;
+    --gray-light: #F4F3F0;
+    --gray-mid: #D3D1C7;
+    --white: #FFFFFF;
+    --text: #2C2C2A;
+    --text-muted: #888780;
+    --border: #E0DED8;
+    --code-bg: #F0FBF7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    background: #FAFAF8;
+  }
+
+  /* 사이드바 */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--green-dark);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 0 0 40px;
+  }
+  .sidebar-logo {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .sidebar-logo .brand { color: #fff; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+  .sidebar-logo .sub { color: var(--green-mid); font-size: 11px; margin-top: 2px; }
+  .sidebar nav { padding: 16px 0; }
+  .nav-group { margin-bottom: 4px; }
+  .nav-group-title {
+    padding: 8px 24px 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+  }
+  .nav-item {
+    display: block;
+    padding: 8px 24px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover, .nav-item.active {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+    border-left-color: var(--green-mid);
+  }
+  .nav-item .num {
+    display: inline-block;
+    width: 20px;
+    font-size: 11px;
+    color: var(--green-mid);
+    font-weight: 700;
+  }
+
+  /* 메인 콘텐츠 */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* 히어로 */
+  .hero {
+    background: linear-gradient(135deg, var(--green-dark) 0%, #0D5E47 50%, #1D9E75 100%);
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 200px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: var(--green-mid);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero p { color: rgba(255,255,255,0.7); font-size: 16px; max-width: 500px; }
+  .hero-tags { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero-tag {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  /* 콘텐츠 영역 */
+  .content { padding: 48px 60px; max-width: 960px; }
+
+  /* 섹션 */
+  .section { margin-bottom: 60px; scroll-margin-top: 24px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--green-light);
+  }
+  .section-num {
+    width: 36px; height: 36px;
+    background: var(--green);
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 22px; font-weight: 900; color: var(--green-dark); }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--blue);
+    margin: 28px 0 12px;
+    padding-left: 12px;
+    border-left: 3px solid var(--blue);
+  }
+
+  p { margin-bottom: 12px; color: var(--text); }
+
+  /* 테이블 */
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--green); }
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+  }
+  tbody tr:nth-child(even) { background: var(--gray-light); }
+  tbody tr:hover { background: var(--green-light); }
+  tbody td { padding: 11px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  tbody tr:last-child td { border-bottom: none; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge-star { background: #FFF3CD; color: #854F0B; }
+  .badge-req { background: var(--green-light); color: var(--green-dark); }
+  .badge-no { background: #FEE2E2; color: #991B1B; }
+
+  /* 플로우 차트 */
+  .flow { margin: 20px 0; }
+  .flow-item {
+    background: var(--green-light);
+    border: 1px solid var(--green-mid);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-align: center;
+    position: relative;
+  }
+  .flow-arrow {
+    text-align: center;
+    padding: 6px;
+    color: var(--green);
+    font-size: 18px;
+  }
+  .flow-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 6px 0;
+  }
+  .flow-split .flow-item { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+
+  /* 팁 박스 */
+  .tip {
+    border-left: 4px solid var(--green);
+    background: var(--green-light);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .tip .tip-label { font-weight: 700; color: var(--green); margin-bottom: 3px; font-size: 12px; }
+  .tip .tip-text { color: var(--green-dark); }
+  .tip-warn {
+    border-left-color: #E57C23;
+    background: #FFF7ED;
+  }
+  .tip-warn .tip-label { color: #E57C23; }
+  .tip-warn .tip-text { color: #7C2D12; }
+
+  /* 코드 블록 */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--green-mid);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--green-dark);
+    line-height: 1.9;
+  }
+  .code-block .cm { color: var(--text-muted); }
+  .code-block .ck { color: var(--blue); font-weight: 600; }
+  .code-block .cv { color: var(--coral); }
+
+  /* 카드 그리드 */
+  .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    border-top: 3px solid var(--green);
+  }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+  .card-desc { font-size: 12px; color: var(--text-muted); }
+  .card-example { margin-top: 8px; font-size: 12px; color: var(--blue); font-style: italic; }
+
+  /* 비교 카드 */
+  .vs-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .vs-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .vs-card-head {
+    padding: 14px 16px;
+    font-weight: 900;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+  }
+  .vs-card-head.and { background: var(--green); }
+  .vs-card-head.or { background: var(--blue); }
+  .vs-card-head.not { background: var(--amber); }
+  .vs-card-body { padding: 14px 16px; }
+  .vs-card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+  .vs-card-ex { font-size: 12px; background: var(--gray-light); border-radius: 6px; padding: 8px 10px; color: var(--text); }
+
+  /* 구분선 */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* 스텝 번호 */
+  .step-list { margin: 12px 0; }
+  .step-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step-item:last-child { border-bottom: none; }
+  .step-num {
+    width: 28px; height: 28px;
+    background: var(--green);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-content .step-action { font-size: 14px; font-weight: 500; color: var(--text); }
+  .step-content .step-where { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* 태그 */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .tag-green { background: var(--green-light); color: var(--green-dark); }
+  .tag-blue { background: var(--blue-light); color: var(--blue); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+
+  /* 반응형 */
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .content { padding: 24px 20px; }
+    .hero { padding: 40px 24px; }
+    .card-grid, .vs-grid { grid-template-columns: 1fr; }
+  }
+
+  /* 프린트 */
+  @media print {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .content { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 사이드바 -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">LifeSmart</div>
+    <div class="sub">AI Builder 자동화 메뉴얼</div>
+  </div>
+  <nav>
+    <div class="nav-group">
+      <div class="nav-group-title">기초</div>
+      <a href="#s1" class="nav-item"><span class="num">01</span> 기본 논리 연산</a>
+      <a href="#s2" class="nav-item"><span class="num">02</span> 블록 전체 목록</a>
+      <a href="#s3" class="nav-item"><span class="num">03</span> 캔버스 조작</a>
+      <a href="#s4" class="nav-item"><span class="num">04</span> 포맷 설정</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">심화</div>
+      <a href="#s5" class="nav-item"><span class="num">05</span> Timer 완전 가이드</a>
+      <a href="#s6" class="nav-item"><span class="num">06</span> 장면(씬) 설정</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">실전 패턴</div>
+      <a href="#s7" class="nav-item"><span class="num">07</span> 전등 자동 끄기</a>
+      <a href="#s8" class="nav-item"><span class="num">08</span> 에어컨 온도 제어</a>
+      <a href="#s9" class="nav-item"><span class="num">09</span> 대기전력 차단</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">참고</div>
+      <a href="#s10" class="nav-item"><span class="num">10</span> RSSI 신호 테스트</a>
+      <a href="#s11" class="nav-item"><span class="num">11</span> 트러블슈팅</a>
+      <a href="#s12" class="nav-item"><span class="num">12</span> 제품 스펙 전체</a>
+      <a href="#s13" class="nav-item"><span class="num">13</span> 공식 스펙</a>
+    </div>
+  </nav>
+</nav>
+
+<!-- 메인 -->
+<main class="main">
+
+  <!-- 히어로 -->
+  <div class="hero">
+    <div class="hero-badge">공식 검증 정보만 수록</div>
+    <h1>LifeSmart<br>AI Builder<br>자동화 메뉴얼</h1>
+    <p>무선 IoT 스마트홈 블록 프로그래밍 완전 가이드</p>
+    <div class="hero-tags">
+      <span class="hero-tag">블록 전체 목록</span>
+      <span class="hero-tag">실전 자동화 3패턴</span>
+      <span class="hero-tag">포맷 설정 상세</span>
+      <span class="hero-tag">기기 스펙 전체</span>
+      <span class="hero-tag">트러블슈팅</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- 1장 -->
+    <section class="section" id="s1">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div class="section-title">기본 논리 연산</div>
+      </div>
+      <p>자동화를 만들 때 가장 먼저 알아야 할 개념이에요. <strong>어떤 조건일 때 어떤 동작을 할지</strong> 정하는 규칙입니다.</p>
+
+      <div class="vs-grid">
+        <div class="vs-card">
+          <div class="vs-card-head and">AND</div>
+          <div class="vs-card-body">
+            <div class="vs-card-desc">모든 조건이 참일 때만 실행<br>하나라도 빠지면 실행 안됨</div>
+            <div class="vs-card-ex">🔒 자물쇠 두 개 — 둘 다 열어야 문이 열림</div>
+          </div>
+        </div>
+        <div class="vs-card">
+          <div class="vs-card-head or">OR</div>
+          <div class="vs-card-body">
+            <div class="vs-card-desc">조건 중 하나라도 참이면 실행<br>더 넓은 조건</div>
+            <div class="vs-card-ex">🚌 버스 OR 지하철 중 하나 오면 → 출발</div>
+          </div>
+        </div>
+        <div class="vs-card">
+          <div class="vs-card-head not">NOT</div>
+          <div class="vs-card-body">
+            <div class="vs-card-desc">조건의 반대 상태일 때 실행<br>'아닐 때'로 이해하면 쉬움</div>
+            <div class="vs-card-ex">NOT 감지됨 = 사람 없음</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>실생활 예시로 이해하기</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>연산자</th><th>실생활 비유</th><th>자동화 예시</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge b-green">AND</span></td><td>배고프고 AND 돈 있어야 → 밥 먹음</td><td>전등 ON AND 사람 없음 → 전등 끄기</td></tr>
+            <tr><td><span class="badge b-green">AND</span></td><td>비 오고 AND 우산 없어야 → 빌림</td><td>온도 낮음 AND 오전 시간 → 난방 켜기</td></tr>
+            <tr><td><span class="badge b-blue">OR</span></td><td>춥거나 OR 비 오면 → 외투 입기</td><td>동작감지 OFF OR 재실 OFF → 타이머 시작</td></tr>
+            <tr><td><span class="badge b-blue">OR</span></td><td>전화 OR 문자 오면 → 확인</td><td>버튼1 OR 버튼2 누르면 → 조명 켜기</td></tr>
+            <tr><td><span class="badge b-star">NOT</span></td><td>우산 없으면(NOT 있음) → 챙기기</td><td>NOT 동작 감지됨 → 사람 없음으로 판단</td></tr>
+            <tr><td><span class="badge b-green">AND(4 input)</span></td><td>4가지 조건 모두 맞아야 실행</td><td>Timer경과+동작없음+재실없음+전등켜짐 → 끄기</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>NOT 연산 완전 이해하기</h3>
+      <p>NOT은 처음엔 헷갈리는 분들이 많아요. 핵심은 딱 하나입니다. <strong>입력값을 뒤집는다</strong>는 거예요.</p>
+
+      <div class="code-block">
+        <span class="ck">NOT</span> 의 동작 원리<br><br>
+        입력 <span class="cv">1</span> (ON / 참 / 감지됨) → 출력 <span class="ck">0</span> (OFF / 거짓 / 감지 안됨)<br>
+        입력 <span class="cv">0</span> (OFF / 거짓 / 감지 안됨) → 출력 <span class="ck">1</span> (ON / 참 / 감지됨)
+      </div>
+
+      <h4>왜 NOT이 필요한가요?</h4>
+      <p>센서는 대부분 <strong>"감지됨 = 1"</strong> 을 출력해요. 그런데 자동화에서는 <strong>"사람 없을 때"</strong> 를 조건으로 쓰고 싶을 때가 많아요. 이럴 때 NOT으로 뒤집는 거예요.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>센서 상태</th><th>센서 출력값</th><th>NOT 통과 후</th><th>의미</th></tr></thead>
+          <tbody>
+            <tr><td>사람 있음 (움직임 감지)</td><td>1 (ON)</td><td>0 (OFF)</td><td>조건 불만족 → 실행 안됨</td></tr>
+            <tr><td>사람 없음 (움직임 없음)</td><td>0 (OFF)</td><td>1 (ON)</td><td>조건 만족 → 실행됨</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>NOT 없이 vs NOT 있을 때 비교</h4>
+      <div class="code-block">
+        <span class="cm">❌ NOT 없이:</span><br>
+        동작감지 → AND → 전등 끄기<br>
+        <span class="cv">→ 사람이 있을 때 전등이 꺼짐 (원하는 것과 반대!)</span><br><br>
+        <span class="cm">✅ NOT 있을 때:</span><br>
+        동작감지 → NOT → AND → 전등 끄기<br>
+        <span class="ck">→ 사람이 없을 때 전등이 꺼짐 (정확!)</span>
+      </div>
+
+      <h4>실전에서 NOT을 쓰는 대표 상황</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>상황</th><th>센서 원래 출력</th><th>NOT 적용 후</th><th>자동화 조건</th></tr></thead>
+          <tbody>
+            <tr><td>사람 없을 때 전등 끄기</td><td>동작감지 = 0 (없음)</td><td>NOT → 1</td><td>사람 없음 조건 성립</td></tr>
+            <tr><td>문 닫혀있을 때 에어컨 켜기</td><td>도어센서 = 0 (닫힘)</td><td>NOT → 1</td><td>문 닫힘 조건 성립</td></tr>
+            <tr><td>전등 꺼져 있을 때만 켜기</td><td>전등 = 0 (꺼짐)</td><td>NOT → 1</td><td>꺼진 상태 조건 성립</td></tr>
+            <tr><td>에어컨 안 켜져 있을 때 알림</td><td>에어컨 = 0 (꺼짐)</td><td>NOT → 1</td><td>미작동 상태 감지</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>NOT + AND 조합 — 가장 많이 쓰는 패턴</h4>
+      <p>NOT은 단독으로 쓰기보다 AND와 함께 쓸 때 진짜 힘을 발휘해요.</p>
+      <div class="code-block">
+        <span class="cm">예시: "전등이 켜져 있고, 사람이 없을 때 → 전등 끄기"</span><br><br>
+        전등 상태(1=켜짐) ──────────────────────→ AND ─→ 전등 끄기<br>
+        동작감지(0=없음) → <span class="ck">NOT</span>(0→1로 변환) ─→ AND
+      </div>
+      <div class="tip"><div class="tip-label">💡 핵심 요약</div><div class="tip-text">NOT = 0을 1로, 1을 0으로 뒤집기. "없을 때", "꺼져 있을 때", "안 감지될 때" 를 조건으로 쓰고 싶으면 NOT을 쓰세요!</div></div>
+
+      <h3>언제 뭘 쓸까?</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>상황</th><th>사용할 연산</th><th>이유</th></tr></thead>
+          <tbody>
+            <tr><td>여러 센서 중 하나라도 반응하면 시작</td><td><span class="tag tb">OR</span></td><td>넓게 트리거 잡기</td></tr>
+            <tr><td>최종 실행 전 여러 조건 확인</td><td><span class="tag tg">AND</span></td><td>오작동 방지</td></tr>
+            <tr><td>'없을 때', '꺼져 있을 때' 표현</td><td><span class="tag ta">NOT</span></td><td>반대 상태 표현</td></tr>
+            <tr><td>4가지 이상 조건 동시 확인</td><td><span class="tag tg">AND(4 input)</span></td><td>복잡한 자동화</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip"><div class="tip-label">💡 핵심 원칙</div><div class="tip-text">트리거는 OR로 넓게 잡고, 최종 실행 조건은 AND로 엄격하게 걸어야 오작동을 막을 수 있어요!</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 2장 -->
+    <section class="section" id="s2">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div class="section-title">블록 전체 목록</div>
+      </div>
+      <p>처음에는 <span class="badge badge-star">★ 핵심</span> 표시된 블록만 알아도 충분해요!</p>
+
+      <h3>기능 블록</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>블록명</th><th>기능 설명</th><th>활용 예시</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Timer</strong> <span class="badge badge-star">★</span></td><td>설정 시간만큼 기다린 후 신호 출력</td><td>10분 후 전등 끄기</td></tr>
+            <tr><td>Calendar trigger</td><td>매일/매주 특정 시각에 자동 실행</td><td>매일 오전 9시 실행</td></tr>
+            <tr><td>Time Limit</td><td>지정한 시간대에만 자동화 허용</td><td>밤 10시~아침 7시에만 작동</td></tr>
+            <tr><td>Calendar</td><td>날짜/요일 기반 조건</td><td>평일에만 / 주말에만</td></tr>
+            <tr><td><strong>Integer Compare</strong> <span class="badge badge-star">★</span></td><td>두 숫자를 비교해서 크다/작다 판단</td><td>온도 26도 이상이면 에어컨 켜기</td></tr>
+            <tr><td>Multi-Compare</td><td>여러 숫자를 동시에 비교</td><td>온도 범위 조건</td></tr>
+            <tr><td>Fuzzy Compare</td><td>근사값 허용 비교</td><td>대략 26도 근처이면</td></tr>
+            <tr><td>Counter</td><td>특정 횟수가 될 때 신호 출력</td><td>3번 눌렀을 때 실행</td></tr>
+            <tr><td>Up/Down Counter</td><td>올리고 내리기 카운터</td><td>누적 횟수 관리</td></tr>
+            <tr><td>Delay On</td><td>딜레이 후 ON 신호 출력</td><td>3초 후 켜기</td></tr>
+            <tr><td>Delay Off</td><td>딜레이 후 OFF 신호 출력</td><td>3초 후 끄기</td></tr>
+            <tr><td>Sum On</td><td>남은 시간 합산 후 ON</td><td>타이머 누적</td></tr>
+            <tr><td>Mathematical Computation</td><td>더하기/빼기/곱하기 등 계산</td><td>센서값 변환</td></tr>
+            <tr><td>To String</td><td>숫자/값을 문자로 변환</td><td>알림 메시지에 온도값 넣기</td></tr>
+            <tr><td>Random Number Generator</td><td>랜덤 숫자 생성</td><td>무작위 동작</td></tr>
+            <tr><td>PID</td><td>정밀 제어 알고리즘</td><td>온도를 정확히 22도로 유지</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>논리연산 블록</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>블록명</th><th>기능 설명</th><th>활용 예시</th></tr></thead>
+          <tbody>
+            <tr><td><strong>NOT</strong> <span class="badge badge-star">★</span></td><td>입력값을 반전 (켜짐→꺼짐)</td><td>감지됨 → 감지 안됨으로 변환</td></tr>
+            <tr><td><strong>AND</strong> <span class="badge badge-star">★</span></td><td>2개 조건 모두 참일 때만 통과</td><td>전등 ON + 사람 없음 → 끄기</td></tr>
+            <tr><td><strong>AND(4 input)</strong> <span class="badge badge-star">★</span></td><td>4개 조건 모두 참일 때만 통과</td><td>복잡한 다중 조건 확인</td></tr>
+            <tr><td><strong>OR</strong> <span class="badge badge-star">★</span></td><td>2개 중 하나라도 참이면 통과</td><td>두 센서 중 하나 반응</td></tr>
+            <tr><td>OR(4 input)</td><td>4개 중 하나라도 참이면 통과</td><td>4개 센서 중 하나 반응</td></tr>
+            <tr><td>MASK</td><td>특정 비트 값만 통과시키기</td><td>고급 신호 필터링</td></tr>
+            <tr><td>FLIP</td><td>신호 받을 때마다 ON↔OFF 교대</td><td>버튼 한 번 = 켜기, 다시 = 끄기</td></tr>
+            <tr><td>Array data select</td><td>여러 입력 중 선택한 하나만 출력</td><td>다중 입력 중 선택</td></tr>
+            <tr><td>1-to-2 Demultiplexer</td><td>신호 1개 → 2갈래로 나누기</td><td>하나의 트리거로 두 가지 경로</td></tr>
+            <tr><td>1-to-3 / 1-to-4 Demultiplexer</td><td>신호 1개 → 3/4갈래로 나누기</td><td>다중 분기</td></tr>
+            <tr><td>2-to-1 / 3-to-1 / 4-to-1 Multiplexer</td><td>여러 입력 중 하나를 선택해 출력</td><td>입력 선택</td></tr>
+            <tr><td>PLS</td><td>입력이 0→1로 바뀌는 순간만 출력</td><td>켜지는 순간만 감지</td></tr>
+            <tr><td>PLF</td><td>입력이 1→0으로 바뀌는 순간만 출력</td><td>꺼지는 순간만 감지</td></tr>
+            <tr><td>CHG</td><td>입력값이 변할 때마다 출력</td><td>값이 바뀔 때마다 감지</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>변수 블록</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>블록명</th><th>기능 설명</th><th>활용 예시</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Boolean</strong> <span class="badge badge-star">★</span></td><td>ON/OFF, 1/0 값 확인</td><td>전등이 켜져 있는지 확인</td></tr>
+            <tr><td><strong>I/O Value</strong> <span class="badge badge-star">★</span></td><td>센서나 기기의 실시간 입출력 값 읽기</td><td>동작감지 센서 현재 상태</td></tr>
+            <tr><td>Enable</td><td>자동화 자체를 활성/비활성 제어</td><td>이 자동화를 켜거나 끄기</td></tr>
+            <tr><td>Number</td><td>소수 포함 숫자 저장</td><td>온도 26.5도, 밝기 75%</td></tr>
+            <tr><td>Integer</td><td>정수 저장</td><td>카운트 3회</td></tr>
+            <tr><td>Value Map</td><td>여러 값을 하나로 묶어 관리</td><td>복합 상태 관리</td></tr>
+            <tr><td>String</td><td>문자열 저장</td><td>알림 메시지 내용</td></tr>
+            <tr><td>variable</td><td>형태 제한 없는 자유 변수</td><td>임시 저장</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>액션 블록</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>블록명</th><th>기능 설명</th><th>활용 예시</th></tr></thead>
+          <tbody>
+            <tr><td><strong>device control</strong> <span class="badge badge-star">★</span></td><td>전등/스위치/콘센트 ON, OFF 제어</td><td>전등 끄기, 플러그 차단</td></tr>
+            <tr><td>device action</td><td>카메라/IR/RGBW 기기 제어</td><td>에어컨 IR 리모컨 켜기</td></tr>
+            <tr><td>AI action</td><td>저장된 씬(Scene) 실행</td><td>귀가 모드 씬 실행</td></tr>
+            <tr><td>upnp action</td><td>외부 브랜드 기기 제어</td><td>Hue 전구 색상 변경</td></tr>
+            <tr><td>Multi Control</td><td>여러 기기를 동시에 같은 상태로 동기화</td><td>전체 조명 한번에 끄기</td></tr>
+            <tr><td>Send message</td><td>조건 충족 시 앱으로 알림 전송</td><td>사람 감지됨 알림</td></tr>
+            <tr><td>Send Pic Notify</td><td>카메라 사진 찍어서 알림 전송</td><td>현관 카메라 사진 알림</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <span class="ck">device control</span> 블록 내부 구조<br>
+        <span class="cm">├─</span> <span class="cv">trigger</span>  ← 여기에 AND/OR output을 연결<br>
+        <span class="cm">├─</span> <span class="cv">action</span>   ← '켜기' 또는 '끄기' 선택<br>
+        <span class="cm">└─</span> <span class="cv">device</span>   ← 제어할 실제 기기 선택
+      </div>
+
+      <h3>API 블록 (고급)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>블록명</th><th>기능 설명</th></tr></thead>
+          <tbody>
+            <tr><td>HTTP Call(JSON)</td><td>JSON 형식으로 외부 서버에 요청</td></tr>
+            <tr><td>HTTP Call</td><td>일반 HTTP 요청 전송</td></tr>
+            <tr><td>TCP Cmd</td><td>TCP 프로토콜로 명령 전송</td></tr>
+            <tr><td>Local control interface</td><td>내부 네트워크 제어 인터페이스</td></tr>
+            <tr><td>modbus</td><td>산업용 Modbus 485 프로토콜</td></tr>
+            <tr><td>eHotel Push Welcome to eDuerOS</td><td>호텔 환영 음성 메시지 푸시</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 3장 -->
+    <section class="section" id="s3">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div class="section-title">캔버스 조작 방법</div>
+      </div>
+      <p>3D 아이소메트릭 격자 캔버스에서 블록을 배치하고 연결선으로 이어가는 방식입니다.</p>
+        <div class="img-label">캔버스 화면 스크린샷</div>
+        <div>이 위치에 캔버스 화면 이미지를 넣어주세요</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>버튼/동작</th><th>위치</th><th>기능</th></tr></thead>
+          <tbody>
+            <tr><td>≡ 메뉴 버튼</td><td>우측 상단</td><td>블록 목록 열기 — 여기서 블록 추가</td></tr>
+            <tr><td>+ 버튼</td><td>우측 중앙</td><td>캔버스 확대</td></tr>
+            <tr><td>- 버튼</td><td>우측 중앙</td><td>캔버스 축소</td></tr>
+            <tr><td>↺ 버튼</td><td>우측 하단</td><td>초기화/리셋</td></tr>
+            <tr><td>👁 버튼</td><td>우측 하단</td><td>자동화 미리보기</td></tr>
+            <tr><td>화면 드래그</td><td>캔버스 전체</td><td>캔버스 이동</td></tr>
+            <tr><td>블록 선택 → 설정</td><td>하단 메뉴</td><td>블록 속성/값 변경</td></tr>
+            <tr><td>블록 선택 → 연결</td><td>하단 메뉴</td><td>다음 블록과 연결선 연결</td></tr>
+            <tr><td>블록 선택 → 디바이스</td><td>하단 메뉴</td><td>연결된 기기 교체</td></tr>
+            <tr><td>블록 선택 → 해제</td><td>하단 메뉴</td><td>연결선 끊기</td></tr>
+            <tr><td>블록 선택 → 삭제</td><td>하단 메뉴</td><td>블록 제거</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip"><div class="tip-label">⚠️ 중요</div><div class="tip-text">단말기(기기) 블록 없이는 디바이스 직접 연결 불가! 반드시 ≡ → 단말기 탭에서 기기 블록을 먼저 캔버스에 추가해야 해요.</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 4장 -->
+    <section class="section" id="s4">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div class="section-title">포맷 설정 상세</div>
+      </div>
+      <p>블록이 센서/기기 데이터를 어떤 형식으로 읽을지 설정합니다.</p>
+
+      <h3>기본 포맷 4종</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>포맷</th><th>의미</th><th>권장 기기</th></tr></thead>
+          <tbody>
+            <tr><td><strong>mi</strong></td><td>단일 값 하나 (가장 기본)</td><td>전등 스위치 ON/OFF</td></tr>
+            <tr><td><strong>moid</strong> <span class="badge badge-star">★</span></td><td>특정 속성 하나만 지정해서 읽기</td><td>동작감지/재실/온도 센서</td></tr>
+            <tr><td><strong>moids</strong> <span class="badge badge-star">★</span></td><td>여러 속성 동시에 읽기</td><td>스마트 플러그 (전력+전압+전류)</td></tr>
+            <tr><td>moid Array</td><td>배열 형태로 여러 값 읽기</td><td>다중 기기 값 묶음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>실제 포맷 패턴 예시</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>기기</th><th>포맷 패턴</th><th>의미</th></tr></thead>
+          <tbody>
+            <tr><td>동작감지 센서</td><td><code>mi:io///^M%d*$</code></td><td>M으로 시작하는 숫자값 (움직임)</td></tr>
+            <tr><td>재실 센서</td><td><code>moid</code></td><td>재실 감지 속성</td></tr>
+            <tr><td>온도 센서</td><td><code>moid</code></td><td>temperature 속성</td></tr>
+            <tr><td>스마트 플러그</td><td><code>moids:io///^O%d*$</code></td><td>O로 시작하는 숫자값 (전력W)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>정규식 패턴 해석법</h3>
+      <div class="code-block">
+        <span class="ck">moids</span> : <span class="cv">io</span> /// <span class="ck">^O%d*$</span><br>
+        &nbsp; ↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        <span class="cm">읽기방식&nbsp;&nbsp;신호방식&nbsp;&nbsp;&nbsp;필터 (정규식)</span><br><br>
+        <span class="cv">^</span>  = 값의 시작<br>
+        <span class="cv">O</span>  = O로 시작하는<br>
+        <span class="cv">%d</span> = 숫자 한 자리<br>
+        <span class="cv">*</span>  = 0개 이상 반복<br>
+        <span class="cv">$</span>  = 값의 끝<br><br>
+        <span class="cm">→ 결국: O로 시작하고 숫자로 끝나는 값만 필터링</span>
+      </div>
+      <div class="tip"><div class="tip-label">💡 예시</div><div class="tip-text">스마트 플러그는 전력(W)/전압(V)/전류(A) 여러 값을 동시에 보냄 → moids + ^O%d*$ 필터로 전력값만 쏙 뽑아 사용!</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 5장 -->
+    <section class="section" id="s5">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div class="section-title">Timer 블록 완전 가이드</div>
+      </div>
+
+      <h3>Timer 블록 포트 전체</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>포트</th><th>입출력</th><th>역할</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Start</strong></td><td>입력</td><td>타이머 카운트 시작 신호</td></tr>
+            <tr><td><strong>Stop</strong></td><td>입력</td><td>타이머 카운트 중지 신호</td></tr>
+            <tr><td><strong>Reset</strong></td><td>입력</td><td>타이머 0으로 초기화</td></tr>
+            <tr><td><strong>Threshold</strong></td><td>설정값</td><td>목표 시간 설정 (600 = 10분)</td></tr>
+            <tr><td><strong>Duration</strong></td><td>출력</td><td>현재 경과 시간 실시간 출력</td></tr>
+            <tr><td><strong>Output</strong></td><td>출력</td><td>설정 시간 도달 시 신호 출력</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Reset 활용법 — 이게 핵심이에요!</h3>
+      <p>사람이 중간에 다시 들어왔다 나갈 경우 10분을 처음부터 다시 카운트하려면 Reset을 연결해야 해요.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>상황</th><th>연결</th><th>결과</th></tr></thead>
+          <tbody>
+            <tr><td>동작감지 OFF 됨</td><td>→ Timer <strong>Start</strong></td><td>카운트 시작</td></tr>
+            <tr><td>동작감지 ON 됨 (사람 다시 옴)</td><td>→ Timer <strong>Reset</strong></td><td>카운트 0으로 초기화</td></tr>
+            <tr><td>재실 OFF 됨</td><td>→ Timer <strong>Start</strong></td><td>카운트 시작</td></tr>
+            <tr><td>재실 ON 됨 (사람 감지)</td><td>→ Timer <strong>Reset</strong></td><td>카운트 0으로 초기화</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-block">
+        <span class="cm">❌ Reset 없을 때:</span><br>
+        동작감지 OFF → 10분 카운트 시작<br>
+        5분 후 사람 다시 들어옴<br>
+        5분 더 지나면 전등 꺼짐 → <span class="cv">오작동!</span><br><br>
+        <span class="cm">✅ Reset 있을 때:</span><br>
+        동작감지 OFF → 10분 카운트 시작<br>
+        5분 후 사람 다시 들어옴 → Reset → 0으로 초기화<br>
+        다시 나가면 → 10분 처음부터 재카운트 → <span class="ck">정확!</span>
+      </div>
+      <div class="tip"><div class="tip-label">⭐ 추천</div><div class="tip-text">Start와 Reset을 같이 쓰면 훨씬 정확한 자동화가 됩니다!</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 6장 -->
+    <section class="section" id="s6">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div class="section-title">장면(씬) 설정 가이드</div>
+      </div>
+
+      <h3>작동 모드 상세</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>모드</th><th>동작 방식</th><th>장점</th><th>단점</th></tr></thead>
+          <tbody>
+            <tr><td>속도 모드</td><td>빠르게 명령 전송</td><td>빠른 실행</td><td>실행 시간 길어질 수 있음</td></tr>
+            <tr><td>안정 모드</td><td>확인하며 순서대로 실행</td><td>확실한 실행</td><td>속도 모드보다 느림</td></tr>
+            <tr><td><strong>둘 다 체크</strong> ⭐</td><td>빠르게 보내고 실패시 재시도</td><td>가장 안전</td><td>없음</td></tr>
+            <tr><td>필요한 명령만 실행</td><td>이미 원하는 상태면 생략</td><td>불필요한 중복 방지</td><td>고급설정</td></tr>
+            <tr><td>병합 모드</td><td>같은 기기 명령 합쳐서 전송</td><td>효율적인 명령 전송</td><td>고급설정</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip"><div class="tip-label">⭐ 권장 설정</div><div class="tip-text">속도 모드 + 안정 모드 둘 다 체크 + 병합 모드 ON이 가장 안전하고 효율적이에요!</div></div>
+
+      <h3>실행 순서 및 지연 계획</h3>
+      <div class="code-block">
+        + 버튼으로 기기별 실행 순서와 딜레이를 직접 설정할 수 있어요.<br><br>
+        <span class="cm">예시:</span><br>
+        1번: 거실 전등 켜기  → <span class="ck">즉시</span><br>
+        2번: 에어컨 켜기     → <span class="ck">3초 후</span><br>
+        3번: TV 켜기         → <span class="ck">5초 후</span>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 7장 -->
+    <section class="section" id="s7">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div class="section-title">실전 패턴 1 — 두 센서로 전등 자동 끄기</div>
+      </div>
+      <div class="tip"><div class="tip-label">🏠 이런 상황을 해결해요!</div><div class="tip-text">방에서 나갔는데 전등을 깜빡하고 안 껐을 때 → 10분 뒤 자동으로 꺼줌</div></div>
+
+      <h3>왜 센서가 2개일까요?</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>센서 종류</th><th>특징</th><th>한계</th></tr></thead>
+          <tbody>
+            <tr><td>동작감지 센서 (PIR)</td><td>움직임을 감지</td><td>가만히 앉아 있으면 감지 못함</td></tr>
+            <tr><td>재실 센서 (mmWave)</td><td>미세한 움직임도 감지</td><td>설치 위치 중요</td></tr>
+            <tr><td><strong>2개 함께 사용</strong></td><td>서로 보완</td><td>더 정확한 판단</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>전체 흐름</h3>
+      <div class="flow">
+        <div class="flow-item">① 동작감지 OFF 또는 재실 OFF 발생</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">② OR 블록 → 둘 중 하나라도 꺼지면 다음 단계로</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">③ Timer 시작 → 10분(600초) 기다림</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">④ AND(4 input) → 4가지 조건 동시 확인</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">⑤ 조건 모두 맞으면 → 전등 OFF</div>
+      </div>
+        <div class="img-label">완성된 캔버스 연결 화면</div>
+        <div>자동화 완성 후 스크린샷을 여기에 추가하세요</div>
+      </div>
+
+      <h3>④번 AND 조건 — 왜 필요한가요?</h3>
+      <p>Timer가 돌아가는 10분 동안 상황이 바뀔 수 있어요. 그래서 실행 직전에 다시 한번 확인해요.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>입력</th><th>확인 내용</th><th>이유</th></tr></thead>
+          <tbody>
+            <tr><td>input1</td><td>Timer 10분 경과</td><td>시간이 실제로 지났는지</td></tr>
+            <tr><td>input2</td><td>동작감지 아직 OFF?</td><td>그 사이 사람이 다시 왔는지</td></tr>
+            <tr><td>input3</td><td>재실 센서 아직 OFF?</td><td>그 사이 사람이 다시 왔는지</td></tr>
+            <tr><td>input4</td><td>전등이 아직 켜져 있는지?</td><td>이미 꺼진 전등을 또 끄는 오류 방지</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>캔버스 연결 순서 (16단계)</h3>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num">1</div><div class="step-content"><div class="step-action">≡ 버튼 → 단말기 탭 → 동작감지 센서 추가</div><div class="step-where">단말기 탭</div></div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-content"><div class="step-action">≡ 버튼 → 단말기 탭 → 재실 센서 추가</div><div class="step-where">단말기 탭</div></div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-content"><div class="step-action">≡ 버튼 → 단말기 탭 → 전등 스위치 추가 (상태 읽기용)</div><div class="step-where">단말기 탭</div></div></div>
+        <div class="step-item"><div class="step-num">4</div><div class="step-content"><div class="step-action">≡ 버튼 → 논리연산 블록 → OR 추가</div><div class="step-where">논리연산 블록</div></div></div>
+        <div class="step-item"><div class="step-num">5</div><div class="step-content"><div class="step-action">≡ 버튼 → 기능 블록 → Timer 추가 → 설정에서 600 입력</div><div class="step-where">기능 블록</div></div></div>
+        <div class="step-item"><div class="step-num">6</div><div class="step-content"><div class="step-action">≡ 버튼 → 논리연산 블록 → AND(4 input) 추가</div><div class="step-where">논리연산 블록</div></div></div>
+        <div class="step-item"><div class="step-num">7</div><div class="step-content"><div class="step-action">≡ 버튼 → 액션 블록 → device control 추가</div><div class="step-where">액션 블록</div></div></div>
+        <div class="step-item"><div class="step-num">8</div><div class="step-content"><div class="step-action">동작감지 선택 → 연결 버튼 → OR의 input1 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">9</div><div class="step-content"><div class="step-action">재실 센서 선택 → 연결 버튼 → OR의 input2 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">10</div><div class="step-content"><div class="step-action">OR 선택 → 연결 버튼 → Timer의 Start 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">11</div><div class="step-content"><div class="step-action">Timer 선택 → 연결 버튼 → AND의 input1 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">12</div><div class="step-content"><div class="step-action">동작감지 선택 → 연결 버튼 → AND의 input2 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">13</div><div class="step-content"><div class="step-action">재실 센서 선택 → 연결 버튼 → AND의 input3 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">14</div><div class="step-content"><div class="step-action">전등 단말기 선택 → 연결 버튼 → AND의 input4 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">15</div><div class="step-content"><div class="step-action">AND 선택 → 연결 버튼 → device control의 trigger 선택</div><div class="step-where">연결</div></div></div>
+        <div class="step-item"><div class="step-num">16</div><div class="step-content"><div class="step-action">device control 선택 → 설정 → action=끄기, device=전등 선택</div><div class="step-where">설정</div></div></div>
+      </div>
+
+      <div class="tip tip-warn"><div class="tip-label">⚠️ 주의!</div><div class="tip-text">전등 블록은 두 개가 필요해요! ① 상태 읽기용 단말기 블록 (AND input4 연결) ② 끄기용 device control 블록 (별개)</div></div>
+      <div class="tip"><div class="tip-label">⭐ 업그레이드</div><div class="tip-text">더 정확하게 하려면: 동작감지 ON → Timer Reset, 재실 ON → Timer Reset 연결 추가 → 사람이 다시 왔다 나가면 10분 처음부터 재시작!</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 8장 -->
+    <section class="section" id="s8">
+      <div class="section-header">
+        <div class="section-num">8</div>
+        <div class="section-title">실전 패턴 2 — 온도 기반 에어컨 제어</div>
+      </div>
+      <div class="tip"><div class="tip-label">🌡️ 이런 상황을 해결해요!</div><div class="tip-text">낮에 아무도 없는데 온도가 너무 올라가면 → 에어컨 자동 가동 → 적정 온도 되면 자동 중단</div></div>
+
+      <h3>전체 흐름</h3>
+      <div class="flow">
+        <div class="flow-item">① Calendar → 매일 09:00 ~ 16:00 시간 조건 확인</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">② 온도 센서 → I/O Value로 현재 온도 읽기</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">③ Integer Compare → 현재온도 vs 설정온도 비교</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-split">
+          <div class="flow-item">설정온도 이상 → AND → 에어컨 켜기</div>
+          <div class="flow-item">설정온도 미만 → AND → 에어컨 끄기</div>
+        </div>
+      </div>
+
+      <h3>Integer Compare 설정 방법</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>설정</th><th>의미</th><th>예시</th></tr></thead>
+          <tbody>
+            <tr><td>A &gt; B</td><td>현재온도가 설정온도보다 높으면</td><td>26도 이상이면 에어컨 켜기</td></tr>
+            <tr><td>A &lt; B</td><td>현재온도가 설정온도보다 낮으면</td><td>24도 이하이면 에어컨 끄기</td></tr>
+            <tr><td>A = B</td><td>정확히 같은 값</td><td>잘 사용 안 함</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>패턴 1 vs 패턴 2 비교</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>항목</th><th>전등 자동화 (패턴1)</th><th>에어컨 자동화 (패턴2)</th></tr></thead>
+          <tbody>
+            <tr><td>트리거</td><td>센서 ON/OFF 상태 변화</td><td>시간 (Calendar)</td></tr>
+            <tr><td>조건 블록</td><td>Boolean (켜짐/꺼짐)</td><td>Integer Compare (숫자 비교)</td></tr>
+            <tr><td>출력 방향</td><td>하나 (끄기만)</td><td>둘 (켜기 / 끄기 분기)</td></tr>
+            <tr><td>딜레이</td><td>Timer 10분 필요</td><td>없음 (즉시)</td></tr>
+            <tr><td>난이도</td><td>★★☆☆☆</td><td>★★★☆☆</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 9장 -->
+    <section class="section" id="s9">
+      <div class="section-header">
+        <div class="section-num">9</div>
+        <div class="section-title">실전 패턴 3 — 대기전력 플러그 차단</div>
+      </div>
+      <div class="tip"><div class="tip-label">⚡ 이런 상황을 해결해요!</div><div class="tip-text">TV 리모컨으로 끄면 대기전력 계속 소모 → 플러그 자동 차단으로 전기 절약!</div></div>
+
+      <h3>대기전력이란?</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>상태</th><th>전력 소비</th><th>판단</th></tr></thead>
+          <tbody>
+            <tr><td>TV 켜져 있음</td><td>100W ~ 300W</td><td>사용 중 → 건드리지 않음</td></tr>
+            <tr><td>TV 리모컨으로 꺼짐 (대기)</td><td>3W ~ 20W</td><td>대기전력 → 타이머 시작</td></tr>
+            <tr><td>플러그 차단됨</td><td>0W</td><td>완전 차단</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>전체 흐름</h3>
+      <div class="flow">
+        <div class="flow-item">① 플러그 전력값 읽기 (moids:io///^O%d*$)</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-split">
+          <div class="flow-item">0~20W → Timer Start (카운트 시작)</div>
+          <div class="flow-item">21W 이상 → Timer Reset (카운트 초기화)</div>
+        </div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">③ Timer 설정 시간 경과</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-item">④ device control → 플러그 OFF</div>
+      </div>
+
+      <h3>Timer Reset이 핵심!</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>상황</th><th>동작</th><th>결과</th></tr></thead>
+          <tbody>
+            <tr><td>TV 끔 (5W 대기전력)</td><td>Timer Start</td><td>15분 후 플러그 차단</td></tr>
+            <tr><td>타이머 10분째 TV 다시 켬 (200W)</td><td>Timer Reset</td><td>카운트 0으로 초기화, 안 꺼짐</td></tr>
+            <tr><td>TV 다시 끔 (5W)</td><td>Timer 다시 Start</td><td>새로 15분 카운트</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip"><div class="tip-label">⚙️ 포맷 설정</div><div class="tip-text">스마트 플러그 선택 후 설정 → 포맷을 moids:io///^O%d*$로 변경해야 전력값(W) 읽기 가능!</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 10장 -->
+    <section class="section" id="s10">
+      <div class="section-header">
+        <div class="section-num">10</div>
+        <div class="section-title">RSSI 신호 테스트</div>
+      </div>
+      <p>기기와 스테이션 간의 신호 강도를 확인하는 기능입니다.</p>
+
+      <h3>신호 강도 기준 (dBm)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>dBm 수치</th><th>신호 상태</th><th>조치</th></tr></thead>
+          <tbody>
+            <tr><td>-60dBm 이상</td><td>✅ 매우 좋음</td><td>정상 사용 가능</td></tr>
+            <tr><td>-70dBm</td><td>✅ 좋음</td><td>정상 사용 가능</td></tr>
+            <tr><td>-80dBm</td><td>⚠️ 보통</td><td>간헐적 문제 가능</td></tr>
+            <tr><td>-90dBm</td><td>⚠️ 약함</td><td>중계기 추가 권장</td></tr>
+            <tr><td>-100dBm 이하</td><td>❌ 매우 약함</td><td>위치 변경 또는 중계기 필수</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>화면 컬럼 설명</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>컬럼</th><th>의미</th></tr></thead>
+          <tbody>
+            <tr><td>신호(노이즈)</td><td>기기 자체 노이즈 레벨 (낮을수록 좋음)</td></tr>
+            <tr><td>스테이션>></td><td>기기가 스테이션으로 보내는 신호 강도</td></tr>
+            <tr><td>>>스테이션</td><td>스테이션이 최종 수신하는 신호 강도</td></tr>
+            <tr><td>시간</td><td>마지막 통신 시간</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tip tip-warn"><div class="tip-label">⚠️ 주의</div><div class="tip-text">신호 수치가 -90dBm 이하인 기기는 스테이션과 거리가 멀거나 장애물이 많은 위치 → 중계기 추가 또는 기기 위치 변경 필요</div></div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 11장 -->
+    <section class="section" id="s11">
+      <div class="section-header">
+        <div class="section-num">11</div>
+        <div class="section-title">트러블슈팅</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>오류/증상</th><th>원인</th><th>해결 방법</th></tr></thead>
+          <tbody>
+            <tr><td>현재 연결할 수 있는 앵커가 없습니다</td><td>해당 블록이 output 없는 액션 전용 블록</td><td>상태 읽기용 단말기 블록 별도 추가</td></tr>
+            <tr><td>단말기 블록 연결 안됨</td><td>단말기 블록 미추가 상태</td><td>≡ → 단말기 탭에서 기기 블록 먼저 추가</td></tr>
+            <tr><td>자동화가 실행 안됨</td><td>AND 조건 중 하나라도 거짓</td><td>각 블록 입력값 상태 개별 확인</td></tr>
+            <tr><td>타이머가 리셋 안됨</td><td>Reset 포트 미연결</td><td>동작감지/재실 ON → Timer Reset 연결</td></tr>
+            <tr><td>포맷 오류</td><td>잘못된 포맷 설정</td><td>센서 종류에 맞는 포맷 재설정</td></tr>
+            <tr><td>신호 불안정</td><td>RSSI 수치 -90dBm 이하</td><td>중계기 추가 또는 기기 위치 변경</td></tr>
+            <tr><td>장면 실행 느림</td><td>안정 모드만 사용 중</td><td>속도 모드 + 안정 모드 둘 다 체크</td></tr>
+            <tr><td>전등 상태 블록 연결 안됨</td><td>끄기용 블록은 output 없음</td><td>상태 읽기용 단말기 블록 별도 추가</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 12장 -->
+    <section class="section" id="s12">
+      <div class="section-header">
+        <div class="section-num">12</div>
+        <div class="section-title">제품 전체 카탈로그</div>
+      </div>
+      <p>앱에서 확인된 전체 제품 목록입니다. 카테고리별로 정리했어요.</p>
+
+      <h3>스테이션 / 네이처 시리즈</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>분류</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>스테이션 PRO</td><td>스테이션</td><td>고급형 허브, 최대 500기기, 커버리지 약 120㎡(36평)</td></tr>
+          <tr><td>스테이션</td><td>스테이션</td><td>기본 허브, 최대 500기기, CoSS+Zigbee+Z-Wave</td></tr>
+          <tr><td>DEFED 스테이션</td><td>스테이션</td><td>보안 전용 허브, CoSS+Zigbee+Z-Wave+BLE+WiFi+GSM+4G, 배터리 백업 18시간</td></tr>
+          <tr><td>스테이션 미니</td><td>스테이션</td><td>소형 허브, 내장 보안 사이렌</td></tr>
+          <tr><td>스테이션 미니 IR</td><td>스테이션</td><td>소형 허브 + IR 리모컨 기능</td></tr>
+          <tr><td>네이처 X</td><td>네이처</td><td>올인원 스마트 터미널, 탁상형</td></tr>
+          <tr><td>네이처 7 프로</td><td>네이처</td><td>7인치 멀티 컨트롤 패널, 고급형</td></tr>
+          <tr><td>네이처 7</td><td>네이처</td><td>7인치 멀티 컨트롤 패널</td></tr>
+          <tr><td>네이처 미니 프로</td><td>네이처</td><td>소형 스마트 패널, 고급형</td></tr>
+          <tr><td>네이처 미니</td><td>네이처</td><td>소형 스마트 패널</td></tr>
+          <tr><td>네이처 미니 L</td><td>네이처</td><td>4인치 HD 터치스크린, 경로 교차점 설치형</td></tr>
+          <tr><td>네이처 미니 S</td><td>네이처</td><td>초소형 스마트 패널</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tip"><div class="tip-label">📐 평수 참고</div><div class="tip-text">스테이션 1대 = 약 120㎡(36평). 넓은 집/다층 구조는 스테이션 추가 설치 권장. 철근 콘크리트 벽은 범위 줄어듦.</div></div>
+
+      <h3>스위치</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>전원 타입</th><th>중성선</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Polar Switch (배터리 타입)</strong></td><td>배터리 내장</td><td><span class="badge b-green">불필요</span></td><td>단선 연결 가능, 깜빡임 없음, 1/2/3Way, AC/DC≤30V 지원</td></tr>
+          <tr><td><strong>Polar Switch (전원 타입)</strong></td><td>AC 100-240V</td><td><span class="badge b-red">필요</span></td><td>16A 자기 래칭 릴레이, 1/2/3Way, LED 인디케이터</td></tr>
+          <tr><td>블렌드 스위치</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>기본형 스마트 스위치</td></tr>
+          <tr><td>블렌드 스위치 프로</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>프로 버전, 다양한 마감</td></tr>
+          <tr><td>블렌드 스위치 프로 (중성선 불필요)</td><td>배터리 내장</td><td><span class="badge b-green">불필요</span></td><td>단선 사용 가능</td></tr>
+          <tr><td>블렌드 스위치 프로 (메탈)</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>메탈 마감</td></tr>
+          <tr><td>블렌드 스위치 라이트</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>라이트 버전</td></tr>
+          <tr><td>블렌드 스위치 라이트 (중성선 불필요)</td><td>배터리 내장</td><td><span class="badge b-green">불필요</span></td><td>단선 사용 가능 라이트</td></tr>
+          <tr><td>블렌드 스위치 프로 DPST IR</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>IR 기능 내장</td></tr>
+          <tr><td>에어 스위치</td><td>AC 전원</td><td>모델별</td><td>슬림 디자인</td></tr>
+          <tr><td>네이처 스위치</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>네이처 시리즈 전용 스위치</td></tr>
+          <tr><td>네이처 스위치 L</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>대형 네이처 스위치</td></tr>
+          <tr><td>네이처 장면 스위치</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>씬 전용 버튼 스위치</td></tr>
+          <tr><td>MoonStone 스위치 (4버튼 패널)</td><td>AC 전원</td><td><span class="badge b-red">필요</span></td><td>4개 버튼 패널형</td></tr>
+          <tr><td>SUBLIME 시리즈 (Air/Crest/Rain/Max/Ultra)</td><td>다양</td><td>모델별</td><td>3세대 고급형, Air=3.5mm, 자석식 커버, 80/86/120 호환</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tip"><div class="tip-label">💡 배터리 타입 vs 전원 타입</div><div class="tip-text">중성선이 없는 구형 배선 → 배터리 타입 (공사 불필요). 중성선 있는 신규 배선 → 전원 타입 (배터리 교체 불필요).</div></div>
+
+      <h3>전등 / 조명 제어</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>2ch LED 드라이버 (정전류)</td><td>2채널 LED 정전류 드라이버</td></tr>
+          <tr><td>2ch LED 드라이버 (정전압)</td><td>2채널 LED 정전압 드라이버</td></tr>
+          <tr><td>2ch 조명 컨트롤러 (0-10V)</td><td>0-10V 아날로그 신호로 2채널 조명 제어</td></tr>
+          <tr><td>눈부심방지 조명</td><td>눈부심 방지 매립형 조명</td></tr>
+          <tr><td>디밍 컨트롤러 (정전압)</td><td>정전압 방식 밝기 조절 컨트롤러</td></tr>
+          <tr><td>디밍 컨트롤러 (정전압) V2</td><td>정전압 디밍 컨트롤러 2세대</td></tr>
+          <tr><td>디밍 컨트롤러</td><td>일반 밝기 조절 컨트롤러</td></tr>
+          <tr><td>네이처 디머 스위치 (Triac)</td><td>Triac 방식 디머 스위치, 벽 매립형</td></tr>
+          <tr><td>네이처 디머 (0-10V)</td><td>0-10V 아날로그 디머, DALI 색온도 연동 가능</td></tr>
+          <tr><td>동작감지 & 디머 스위치</td><td>밝기 조절 + 동작감지 일체형</td></tr>
+          <tr><td>블렌드 전구</td><td>스마트 전구</td></tr>
+          <tr><td>스마트 전구 (색온도)</td><td>색온도 조절 가능 스마트 전구</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>커튼모터</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>커튼 모터</td><td>기본 전동 커튼 모터</td></tr>
+          <tr><td>QuickLink 커튼 모터</td><td>빠른 연결 지원 커튼 모터</td></tr>
+          <tr><td>무소음 트랙 커튼 모터</td><td>저소음 트랙 방식</td></tr>
+          <tr><td>버티컬 커튼모터</td><td>수직형 커튼 전용</td></tr>
+          <tr><td>커튼 모터 V2</td><td>2세대 커튼 모터</td></tr>
+          <tr><td>버티컬 블라인드 모터 Q1</td><td>수직 블라인드 전용 Q1 모델</td></tr>
+          <tr><td>버티컬 블라인드 모터 D1</td><td>수직 블라인드 전용 D1 모델</td></tr>
+          <tr><td>롤블라인드 모터</td><td>롤 블라인드 전용 모터</td></tr>
+          <tr><td>범용(MINS) 커튼 컨트롤러</td><td>기존 커튼 모터를 스마트화</td></tr>
+          <tr><td>블렌드 커튼 컨트롤러 프로</td><td>고급형 커튼 컨트롤러</td></tr>
+          <tr><td>네이처 커튼 컨트롤러</td><td>네이처 시리즈 전용</td></tr>
+          <tr><td>블렌드 커튼 컨트롤러</td><td>기본형 커튼 컨트롤러</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>냉난방 (HVAC)</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>중앙제어 에어컨 게이트웨이</td><td>중앙 에어컨 시스템 스마트 연동 게이트웨이</td></tr>
+          <tr><td>중앙에어컨 스마트 컨트롤러 PRO</td><td>중앙 에어컨 고급형 스마트 컨트롤러</td></tr>
+          <tr><td>중앙 에어컨 스마트 컨트롤러</td><td>중앙 에어컨 기본형 컨트롤러</td></tr>
+          <tr><td>HVAC 스마트 컨트롤러</td><td>HVAC 시스템 통합 제어</td></tr>
+          <tr><td>네이처 온도조절기</td><td>네이처 시리즈 온도조절기</td></tr>
+          <tr><td>팬 코일 온도 조절기</td><td>팬코일 유닛 전용 온도 조절기</td></tr>
+          <tr><td>바닥난방 온도조절기</td><td>바닥 난방 온도 제어</td></tr>
+          <tr><td>라디에이터 밸브 온도조절기</td><td>라디에이터 스마트 밸브 제어</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>센서</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>감지 방식</th><th>배터리</th><th>프로토콜</th></tr></thead>
+        <tbody>
+          <tr><td>DEFED 동작감지 센서</td><td>PIR, 최대 12m, 3단계 감도</td><td>CR123A (최대 7년)</td><td>CoSS</td></tr>
+          <tr><td>큐브 동작감지 센서</td><td>PIR</td><td>CR2450</td><td>CoSS</td></tr>
+          <tr><td>동작감지 센서 PRO</td><td>PIR 고급형</td><td>배터리</td><td>CoSS</td></tr>
+          <tr><td>동작감지 센서 LS085WH</td><td>PIR (AAA 배터리형)</td><td>AAA</td><td>CoSS</td></tr>
+          <tr><td>동작감지 센서 LS005</td><td>PIR</td><td>배터리</td><td>CoSS</td></tr>
+          <tr><td>재실 센서</td><td>재실 감지</td><td>배터리</td><td>CoSS</td></tr>
+          <tr><td>재실 센서 (Zigbee)</td><td>mmWave 레이더 + 딥러닝 AI, 오감지 80% 감소</td><td>상시 전원</td><td>Zigbee 3.0</td></tr>
+          <tr><td>DEFED 문열림 센서</td><td>자기 감지 + 탬퍼 보호</td><td>CR123A (최대 10년)</td><td>CoSS</td></tr>
+          <tr><td>출입문/창문 센서</td><td>자기 감지</td><td>배터리</td><td>CoSS</td></tr>
+          <tr><td>큐브 문열림 센서</td><td>자기 + 진동 감지</td><td>CR2450</td><td>CoSS</td></tr>
+          <tr><td>문열림 센서</td><td>자기 감지</td><td>배터리</td><td>CoSS</td></tr>
+          <tr><td>큐브 환경 센서</td><td>온도/습도/조도 (LCD)</td><td>CR2450</td><td>CoSS</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>제어장치</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>제품명</th><th>모델</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td>SPOT Mini</td><td>-</td><td>소형 IR 만능 리모컨 + 야간조명</td></tr>
+          <tr><td>SPOT (CoSS)</td><td>LS136</td><td>IR 리모컨 + 1600만 컬러 야간조명, Smart Station 필요</td></tr>
+          <tr><td>SPOT</td><td>LS034SL</td><td>SPOT 슬림 버전</td></tr>
+          <tr><td>SPOT</td><td>LS027CH</td><td>SPOT CH 버전</td></tr>
+          <tr><td>SPOT (블루투스)</td><td>LS034</td><td>블루투스 연결 SPOT</td></tr>
+          <tr><td>범용 컨트롤러</td><td>-</td><td>다목적 범용 제어 컨트롤러</td></tr>
+          <tr><td>485 컨버터</td><td>-</td><td>RS485 프로토콜 변환기</td></tr>
+          <tr><td>스마트 스위치 컨트롤러</td><td>-</td><td>스위치 전용 스마트 컨트롤러</td></tr>
+          <tr><td>분실 방지 태그</td><td>-</td><td>블루투스 기반 위치 추적 태그</td></tr>
+          <tr><td>MLILY</td><td>-</td><td>스마트 매트리스 연동 기기</td></tr>
+          <tr><td>PSM 장비</td><td>-</td><td>전원 관리 모듈</td></tr>
+          <tr><td>디퓨저</td><td>-</td><td>스마트 향기 디퓨저</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>CoSS 신호거리 비교</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>프로토콜</th><th>개방 공간 신호거리</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CoSS</strong></td><td>최대 800m</td></tr>
+          <tr><td>Zigbee</td><td>30 ~ 100m</td></tr>
+          <tr><td>Z-Wave</td><td>40 ~ 100m</td></tr>
+          <tr><td>WiFi / BLE</td><td>10 ~ 100m</td></tr>
+        </tbody>
+      </table></div>
+    </section>
